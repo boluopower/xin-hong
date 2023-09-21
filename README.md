@@ -10,6 +10,10 @@ Put your "新红网红数据" folder under this repo like this:
         main.js
         package.json
 
+Then install necessary packages from Terminal:
+
+    npm install
+
 Then run main.js from Terminal:
 
     node main.js
