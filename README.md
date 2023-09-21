@@ -9,3 +9,8 @@ Put your "新红网红数据" folder under this repo like this:
         .gitignore
         main.js
         package.json
+
+Then run main.js from Terminal:
+
+    node main.js
+
