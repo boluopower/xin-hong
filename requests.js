@@ -96,14 +96,14 @@ export async function SearchUserByRedID(redid) {
 
   const data = await fetchAPI('https://gw.newrank.cn/api/xh/xdnphb/nr/app/xhs/red/user/search', reqPayload);
 
-  if (data?.list?.length === 1) {
-    const targetUser = data.list[0];
-    logger.info(JSON.stringify(targetUser))
-    return targetUser;
+  const targetUser = data?.list?.find(user => user.redId === redid)
+  if (targetUser == null) {
+    logger.error(`Target User Empty ${redid}`)
+    return null
   }
 
-  logger.error(`Target User Empty ${redid}`)
-  return null
+  logger.info(`👶🏻${JSON.stringify(targetUser)}`);
+  return targetUser;
 }
 
 
