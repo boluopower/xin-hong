@@ -12,14 +12,13 @@ const RedNameKey = '小红书账号昵称'
 const RegTimeKey = '账号注册时间'
 
 async function throttleExecuteTasks(tasks) {
-  let delay = 0;
   for (const task of tasks) {
     await new Promise(resolve => setTimeout(async () => {
       await task.execute();
       resolve();
-    }, delay));
+    }, WAIT_BETWEEN_REQUEST * 1000));
 
-    delay += WAIT_BETWEEN_REQUEST * 1000; // Increase the delay by 5 seconds for each task
+    logger.debug(`⏳delay ${WAIT_BETWEEN_REQUEST} seconds`)
   }
 }
 
@@ -35,15 +34,16 @@ class Task {
   }
 
   async execute() {
-    logger.info(`(${this.row.getCell('序号').value}) ${this.redId} ${this.redName}`)
+    logger.info(`🎬Task:(${this.row.getCell('序号').value}) ${this.redId} ${this.redName}`)
 
-    // const user = await SearchUserByRedID(this.redId)
-    // if (user == null) return
+    const user = await SearchUserByRedID(this.redId)
+    if (user == null) return
 
-    // const achievement = await AchievementByUserID({userid: user.userid, username: user.nickname})
-    // if (achievement == null) return
+    const achievement = await AchievementByUserID({userid: user.userid, username: user.nickname})
+    if (achievement == null) return
 
-    const achievement = {registerTime: 'mock ' + Counter + ' ' + (new Date())}
+    // TODO mock
+    // const achievement = {registerTime: 'mock ' + Counter + ' ' + (new Date())}
 
     logger.info(`${this.redId}[${this.redName}]的注册时间: ${achievement.registerTime}`)
     this.regTimeCell.value = achievement.registerTime;
@@ -115,7 +115,7 @@ async function processExcel(filepath) {
     TaskPools.push(new Task(row, saveFunc))
   }
 
-  await throttleExecuteTasks(TaskPools.slice(0, 7));
+  await throttleExecuteTasks(TaskPools);
   await saveFunc();
 }
 

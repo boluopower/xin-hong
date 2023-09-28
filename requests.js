@@ -1,13 +1,13 @@
 import fetch from 'node-fetch';
 import {logger} from "./logger.js";
-import {cookie} from "./configs.js";
+import {COOKIE} from "./configs.js";
 
 
 export async function fetchAPI(url, dataObj) {
   logger.info(`${url} ${JSON.stringify(dataObj)}`)
   const response = await fetch(url, {
     headers: {
-      cookie,
+      cookie: COOKIE,
       'accept': '*/*',
       'accept-language': 'en-US,en;q=0.9',
       'content-type': 'application/json',

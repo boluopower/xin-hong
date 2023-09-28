@@ -1,3 +1,6 @@
-export const WAIT_BETWEEN_REQUEST = 5
-export const SAVE_EVERY_RECORDS = 10
-export const cookie = "Hm_lvt_a19fd7224d30e3c8a6558dcb38c4beed=1695106981; sensorsdata2015jssdkcross=%7B%22distinct_id%22%3A%22nr_tvd9f2f40%22%2C%22first_id%22%3A%2218aac3eab41167-039239bb4fdaeac-19525634-2732424-18aac3eab4218d1%22%2C%22props%22%3A%7B%22%24latest_traffic_source_type%22%3A%22%E7%9B%B4%E6%8E%A5%E6%B5%81%E9%87%8F%22%2C%22%24latest_search_keyword%22%3A%22%E6%9C%AA%E5%8F%96%E5%88%B0%E5%80%BC_%E7%9B%B4%E6%8E%A5%E6%89%93%E5%BC%80%22%2C%22%24latest_referrer%22%3A%22%22%7D%2C%22%24device_id%22%3A%2218aac3eab41167-039239bb4fdaeac-19525634-2732424-18aac3eab4218d1%22%7D; acw_tc=781bad2516957221948931214e6afcade266fb3f2aa3be5b26d40af29fd342; token=29CADF6DA42045C9AB2082BB38D2364C; NR_MAIN_SOURCE_RECORD={\"locationSearch\":\"\",\"locationHref\":\"https://xh.newrank.cn/d/account/accountOverview/5f686d100000000001003b18\",\"referrer\":\"https://xh.newrank.cn/search\"}"
+export const WAIT_BETWEEN_REQUEST = 3
+export const SAVE_EVERY_RECORDS = 3
+
+export const {
+  COOKIE
+} = process.env
