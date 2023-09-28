@@ -1,6 +1,13 @@
 import * as dotenv from 'dotenv';
 
-dotenv.config({path: process.env.ENV_FILE});
+(() => {
+  if (!process.env.ENV_FILE) {
+    console.error('No ENV_FILE')
+    exit()
+  }
+  dotenv.config({path: process.env.ENV_FILE});
+})()
+
 import fs from 'fs';
 import path from 'path';
 
