@@ -21,4 +21,4 @@ export const logger = createLogger({
   ]
 });
 
-logger.debug(process.env)
+console.debug(process.env)

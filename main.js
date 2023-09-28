@@ -1,3 +1,6 @@
+import * as dotenv from 'dotenv';
+
+dotenv.config({path: process.env.ENV_FILE});
 import fs from 'fs';
 import path from 'path';
 
@@ -120,13 +123,12 @@ async function processExcel(filepath) {
 }
 
 async function main() {
-  const inputDir = '新红网红数据';
-  // const outputDir = '生成结果';
-  const outputDir = '新红网红数据';
+  const inputDir = process.env.INPUT_DIR;
 
-  // Ensure the output directory exists
-  if (!fs.existsSync(outputDir)) {
-    fs.mkdirSync(outputDir);
+  // Ensure the directory exists
+  if (!fs.existsSync(inputDir)) {
+    logger.error(`Not Exist ${inputDir}`)
+    exit()
   }
 
   // Get all Excel files in the input directory
@@ -135,8 +137,6 @@ async function main() {
   // Process each file one by one
   for (const file of files) {
     const inputFilePath = path.join(inputDir, file);
-    const outputFilePath = path.join(outputDir, file);
-
     logger.info(`📂Processing file: ${inputFilePath}`);
     await processExcel(inputFilePath);
   }
