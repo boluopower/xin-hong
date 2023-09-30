@@ -1,4 +1,15 @@
 import fetch from 'node-fetch';
+import * as dotenv from "dotenv";
+
+(() => {
+  if (!process.env.ENV_FILE) {
+    console.error('No ENV_FILE')
+    exit()
+  }
+  dotenv.config({path: process.env.ENV_FILE});
+})()
+
+
 import {logger} from "./logger.js";
 
 

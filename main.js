@@ -1,13 +1,3 @@
-import * as dotenv from 'dotenv';
-
-(() => {
-  if (!process.env.ENV_FILE) {
-    console.error('No ENV_FILE')
-    exit()
-  }
-  dotenv.config({path: process.env.ENV_FILE});
-})()
-
 import fs from 'fs';
 import path from 'path';
 
@@ -21,6 +11,8 @@ const RedIDKey = '小红书id'
 const RedNameKey = '小红书账号昵称'
 const RegTimeKey = '账号注册时间'
 
+const RedIdMapping = JSON.parse(fs.readFileSync('merged.json', 'utf8'));
+
 async function throttleExecuteTasks(tasks) {
   for (const task of tasks) {
     await new Promise(resolve => setTimeout(async () => {
@@ -28,7 +20,7 @@ async function throttleExecuteTasks(tasks) {
       resolve();
     }, WAIT_BETWEEN_REQUEST * 1000));
 
-    logger.debug(`⏳delay ${WAIT_BETWEEN_REQUEST} seconds`)
+    logger.debug(`⏳ delay ${WAIT_BETWEEN_REQUEST} seconds`)
   }
 }
 
@@ -46,14 +38,14 @@ class Task {
   async execute() {
     logger.info(`🎬Task:(${this.row.getCell('序号').value}) ${this.redId} ${this.redName}`)
 
-    const user = await SearchUserByRedID(this.redId)
-    if (user == null) return
+    const user = RedIdMapping[this.redId]
+    if (user == null) {
+      logger.error(`Not Found in RedIdMapping ${this.redId} ${this.redName}`)
+      return
+    }
 
-    const achievement = await AchievementByUserID({userid: user.userid, username: user.nickname})
+    const achievement = await AchievementByUserID({userid: user.userId, username: user.userName})
     if (achievement == null) return
-
-    // TODO mock
-    // const achievement = {registerTime: 'mock ' + Counter + ' ' + (new Date())}
 
     logger.info(`${this.redId}[${this.redName}]的注册时间: ${achievement.registerTime}`)
     this.regTimeCell.value = achievement.registerTime;
